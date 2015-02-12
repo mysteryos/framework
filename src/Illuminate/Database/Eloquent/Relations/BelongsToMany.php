@@ -762,7 +762,7 @@ class BelongsToMany extends Relation {
 	 * @param  mixed  $id
 	 * @param  array  $attributes
 	 * @param  bool   $touch
-	 * @return void
+	 * @return bool
 	 */
 	public function attach($id, array $attributes = array(), $touch = true)
 	{
@@ -770,9 +770,11 @@ class BelongsToMany extends Relation {
 
 		$query = $this->newPivotStatement();
 
-		$query->insert($this->createAttachRecords((array) $id, $attributes));
+		$result = $query->insert($this->createAttachRecords((array) $id, $attributes));
 
 		if ($touch) $this->touchIfTouching();
+		
+		return $result;
 	}
 
 	/**
